@@ -11,10 +11,19 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 
+-- Create user for database access.
+
+CREATE USER 'librarian'@'localhost' IDENTIFIED BY 'booksrfun451';
+
+
 
 -- Dumping database structure for library
 CREATE DATABASE IF NOT EXISTS `library` /*!40100 DEFAULT CHARACTER SET utf8mb4 */;
 USE `library`;
+
+-- give new user access to database
+
+GRANT ALL PRIVILEGES ON `library` to 'librarian'@'%' WITH GRANT OPTION;
 
 -- Dumping structure for table library.books
 CREATE TABLE IF NOT EXISTS `books` (

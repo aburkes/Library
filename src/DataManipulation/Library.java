@@ -5,8 +5,8 @@ import java.sql.*;
 public class Library {
 
     final private String CONNECTION_DATABASE = "jdbc:mysql:library";
-    final private String CONNECTION_AUTH_USER = "user";
-    final private String CONNECTION_AUTH_PASSWORD = "password";
+    final private String CONNECTION_AUTH_USER = "librarian";
+    final private String CONNECTION_AUTH_PASSWORD = "booksrfun451";
 
     //should be in the specs, but isn't!
     private Connection connection;
