@@ -72,31 +72,31 @@ public class Library {
         statement.setInt(1, record.getBook().getBookID());
         statement.setInt(2, record.getStudent().getStudentID());
         statement.setInt(3, record.getUser().getUserID());
-        statement.setDate(4, record.getCheckoutDate());
+        statement.setDate(4, record.getCheckoutDate();
     }
 
     public User getUserByID(int userID) throws SQLException {
-        fetchUser(userID);
+        return fetchUser(Integer.toString(userID), "userID");
     }
 
     public Student getStudentByID(int studentID) throws SQLException {
-        fetchStudent(studentID);
+        return fetchStudent(studentID);
     }
 
     public Book getBookByID(int bookID) throws SQLException {
-        fetchBook(bookID, "bookID");
+        return fetchBook(Integer.toString(bookID), "bookID");
     }
 
     public Book getBookByTitle(String title) throws SQLException {
-        fetchBook(title, "title");
+        return fetchBook(title, "title");
     }
 
     public Record getRecordByID(int recordID) throws SQLException {
-        fetchRecord(recordID, "recordID");
+        return fetchRecord(Integer.toString(recordID), "recordID");
     }
 
     public User getUserbyName(String name) throws SQLException {
-        fetchUser(name, "name");
+        return fetchUser(name, "name");
     }
 
 

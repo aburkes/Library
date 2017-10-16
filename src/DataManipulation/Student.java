@@ -29,6 +29,8 @@ public class Student {
 //methods
     
     //Get Functions
+    public int getStudentID() { return studentID; }
+
     public String getFirstName() {
         return firstName;
     }
