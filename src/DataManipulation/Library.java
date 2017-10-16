@@ -28,7 +28,7 @@ public class Library {
     }
 
     public void newStudent(Student student) throws SQLException {
-        createStudent(Student);
+        createStudent(student);
     }
 
     public void newBook(Book book) throws SQLException {
@@ -62,7 +62,7 @@ public class Library {
         statement.setString(1, book.getTitle());
         statement.setInt(2, book.getEdition());
         statement.setString(3, book.getPublisher());
-        statement.setInt(4, book.getPrice());
+        statement.setDouble(4, book.getPrice());
         statement.setInt(5, book.getPages());
         statement.execute();
     }
