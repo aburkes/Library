@@ -1,6 +1,7 @@
 package DataManipulation;
 
 import java.sql.*;
+import java.time.LocalDateTime;
 
 public class Library {
 
@@ -41,7 +42,7 @@ public class Library {
 
     private void createUser(User user, String password, String answer) throws SQLException {
         PreparedStatement statement = connection.prepareStatement("INSERT INTO users VALUES (DEFAULT, ?, ?, ?, ?)");
-        statement.setString(1, user.getName());
+        statement.setString(1, user.getUserName());
         statement.setString(2, password);
         statement.setInt(3, user.getSecurityQuestion());
         statement.setString(4, answer);
@@ -72,7 +73,10 @@ public class Library {
         statement.setInt(1, record.getBook().getBookID());
         statement.setInt(2, record.getStudent().getStudentID());
         statement.setInt(3, record.getUser().getUserID());
-        statement.setDate(4, record.getCheckoutDate();
+        // Strangely, there is no way to directly input a LocalDateTime to a PreparedStatement
+        // Even more strangely, you can't convert a LocalDateTime directly to a Date!
+        // However, calling it's toString() method provides just the right format MySQL (and presumably other SQL RBDMS) requires.
+        statement.setString(4, record.getCheckoutDate().toString());
     }
 
     public User getUserByID(int userID) throws SQLException {
@@ -144,6 +148,8 @@ public class Library {
     }
 
     private Record fetchRecord(String compare, String field) throws SQLException {
+        Record record;
+        
         //we are getting everything in one go for the sake of efficiency.
         PreparedStatement statement = connection.prepareStatement(
                 "SELECT * FROM records\n" +
@@ -155,7 +161,9 @@ public class Library {
         statement.setString(1, field);
         statement.setString(2, compare);
         ResultSet result = statement.executeQuery();
-        return new Record(
+
+
+        record = new Record(
                 result.getInt("recordID"),
                 new Book(
                         result.getInt("bookID"),
@@ -179,9 +187,14 @@ public class Library {
                         result.getInt("security_question"),
                         result.getString("security_answer")
                 ),
-                result.getDate("checkout_date"),
-                result.getDate("return_date")
+                LocalDateTime.parse(result.getString("checkout_date"))
         );
+
+        if(!result.getString("checkout_date").isEmpty()) {
+            record.setReturnDate(LocalDateTime.parse(result.getString("return_date")));
+        }
+
+        return record;
     }
 
 
