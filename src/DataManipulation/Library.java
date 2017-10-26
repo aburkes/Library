@@ -149,7 +149,7 @@ public class Library {
 
     private Record fetchRecord(String compare, String field) throws SQLException {
         Record record;
-        
+
         //we are getting everything in one go for the sake of efficiency.
         PreparedStatement statement = connection.prepareStatement(
                 "SELECT * FROM records\n" +
