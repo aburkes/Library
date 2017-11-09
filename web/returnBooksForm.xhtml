@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    
+    <h:head>
+        <title>Return Books</title>
+       <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"/> -->
+    </h:head>
+    <h:body>
+      <!--  <div>TODO write content</div> -->
+      <p>
+      <div> Return Books </div>
+      </p>
+      <h:form>
+           <h:panelGrid columns="2" style="height: 96px; width: 456px;"> 
+          <h:panelGrid columns="2" style="height: 96px; width: 456px;"> 
+            <h:outputText value="Student ID" />
+            <h:inputText  id="student_id_inputText"/>
+            <h:outputText value="First Name" />
+            <h:inputText id="firstNameInputText" />
+            <h:outputText value="Last Name" />
+            <h:inputText id="lastNameInputText"/>
+            <h:outputText value="Course" />
+            <h:inputText id="courseInputText" />
+            <h:outputText value="Year"/>
+            <h:inputText id="yearInputText"/>
+            <h:outputText value="Semester" />
+            <h:inputText id="semesterInputText"/>
+          </h:panelGrid>
+         
+          <h:panelGrid columns ="2" style="height: 96px; width: 456px;">
+              <h:outputText value="Book ID"/>
+              <h:inputText id="bookIdInputText"/>
+              <h:outputText value="Name"/>
+              <h:inputText id="bookNameInputTxt"/>
+              <h:outputText value="Edition"/>
+              <h:inputText id="editionInputText"/>
+              <h:outputText value="Publisher"/>
+              <h:inputText id="publisherInputText"/>
+              <h:outputText value="Price"/>
+              <h:inputText id="priceInputText"/>
+              <h:outputText value="Pages"/>
+              <h:inputText id="pageInputText"/>
+              <h:outputText value="Date Of Issue"/>
+              <h:inputText id="dateInputText"/>
+          </h:panelGrid>
+           </h:panelGrid>
+          <h:panelGrid columns ="2" style="height: 96px; width: 456px;">
+              <h:outputText value="Return Date"/>
+              <h:inputText id="returnInputText"/>
+              <h:commandButton value="Return"
+                               id="returnCommandButton"/>
+              <h:commandButton value="Back"
+                               id="backCommandButton"/>
+              <h:commandButton value="Search"
+                               id="searchButton"/>
+          </h:panelGrid>
+      </h:form>
+    </h:body>
+</html>
