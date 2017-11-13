@@ -1,31 +1,27 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
-<!DOCTYPE html>
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-         xmlns:h="http://xmlns.jcp.org/jsf/html"
-        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-        xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://java.sun.com/jsf/facelets">
+<!--
     <h:head>
-        <title>About</title>
-       <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"/> -->
+        <title>Facelet Title</title>
     </h:head>
     <h:body>
-        <h:form>
-            <center>
-        <div>Library Management System</div>
-        <div>Version -1.01</div>
-        <div>Copyright 2017</div>
-        <div>CISP 24 Java</div>
-            </center>
-            <p>
-                <center>
-                    <h:link    value=" adsfasdf@yahoo.com"/>
-                </center>
-            </p>
-        </h:form>
+        Hello from Facelets - <h:outputText value="#{dataManipulation.testString}" />
     </h:body>
+-->
+
+<ui:composition template="template.xhtml">
+    <ui:define name="head">
+        <title>About</title>
+    </ui:define>
+    <ui:define name="contents">
+        <center>
+            <div>Library Management System</div>
+            <div>Version -1.01</div>
+            <div>Copyright 2017</div>
+            <div>CISP 24 Java</div>
+        </center>
+    </ui:define>
+</ui:composition>
 </html>

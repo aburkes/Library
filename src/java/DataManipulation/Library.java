@@ -1,8 +1,23 @@
 package DataManipulation;
 
+//import javax.annotation.sql.DataSourceDefinition;
+//import javax.inject.Named;
+import javax.faces.bean.ManagedBean;
 import java.sql.*;
 import java.time.LocalDateTime;
 
+/*@DataSourceDefinition(
+        name="java:global/jdbc/library",
+        className = "com.mysql.jdbc.Driver",
+        url = "jdbc:mysql:localhost/library",
+        databaseName = "library",
+        user = "librarian",
+        password = "booksrfun451"
+)*/
+
+
+//@Named
+@ManagedBean
 public class Library {
 
     final private String CONNECTION_DATABASE = "jdbc:mysql:library";
@@ -196,6 +211,8 @@ public class Library {
 
         return record;
     }
+
+    //TODO: Create method to get all statistics
 
 
 
