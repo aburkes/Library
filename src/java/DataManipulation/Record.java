@@ -1,7 +1,9 @@
 package DataManipulation;
 
+import javax.faces.bean.ManagedBean;
 import java.time.LocalDateTime;
 
+@ManagedBean
 public class Record {
 
     private int recordID;

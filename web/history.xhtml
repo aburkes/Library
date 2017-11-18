@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+<ui:composition template="template.xhtml">
+    <ui:define name="head">
+        <title>View Book Checkout History</title>
+    </ui:define>
+    <ui:define name="contents">
+        <h:form id="studentForm">
+            <h:dataTable id="studentTable" binding="#{table}" value="#{studentBean.getAllStudents()}" var="student">
+                <h:column>
+                    <f:facet name="header">Student ID</f:facet>
+                    <h:outputText value="#{student.studentID}" />
+                </h:column>
+                <h:column>
+                    <f:facet name="header">First Name</f:facet>
+                    <h:outputText value="#{student.firstName}" />
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Last Name</f:facet>
+                    <h:outputText value="#{student.lastName}" />
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Email Address</f:facet>
+                    <h:outputText value="#{student.email}" />
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Phone Number</f:facet>
+                    <h:outputText value="#{student.phone}" />
+                </h:column>
+                <h:column>
+                    <h:commandButton value="Delete Student" action="#{studentBean.deleteStudent(student.getStudentID())}" />
+                </h:column>
+                <h:column>
+                    <h:commandButton value="Edit Student" action="#{studentBean.requestEditForm(student.getStudentID())}" />
+                </h:column>
+            </h:dataTable>
+        </h:form>
+    </ui:define>
+</ui:composition>
+</html>
+

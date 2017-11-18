@@ -1,9 +1,13 @@
 package DataManipulation;
 
+import javax.faces.bean.ManagedBean;
+
 /**
  *
  * @author Jimmy Hoang
  */
+
+@ManagedBean
 public class Book {
     //fields
     private int bookID;
