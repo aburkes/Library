@@ -9,88 +9,91 @@ and open the template in the editor.
         xmlns:h="http://xmlns.jcp.org/jsf/html"
         xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
         xmlns:f="http://xmlns.jcp.org/jsf/core">
-    <h:head>
-        <title>Checkout Book</title>
-        <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"/> -->
-    </h:head>
-        <p>
-            <div>Book Detail</div>
-        </p>
-    <h:body>
-        <!-- Start of form -->
-        <h:form>
-           
-       <!--first 3 columns grid for Book ID, input, and Search button -->
-         <h:panelGrid columns="3" style="height: 10px; width: 360px;">
-            <h:outputLabel value="Book ID"/>
-            <h:inputText id="checkout_BookID_Input"/>
-            <h:commandButton value="Search"
-                             id="checkout_Searh_CommandButton"/>
-         </h:panelGrid>
-       <!-- end of first Grid Panel -->
-       <!-- second 2 column panelGrid for Book detail -->
-        <h:panelGrid columns="2" style="height: 96px; width: 300px;">  
-            <h:outputLabel value="Book Name"/>
-            <h:inputText id="checkout_BookName_Input"/>
-            
-            <h:outputLabel value="Edition"/>
-            <h:inputText id="checkout_Edition_Input"/> 
-            
-            <h:outputLabel value="Publisher"/>
-            <h:inputText id="checkout_Publisher_Input"/> 
-            
-            <h:outputLabel value="Price"/>
-            <h:inputText id="checkout_Price_Input"/> 
-            
-            <h:outputLabel value="Pages"/>
-            <h:inputText id="checkout_Pages_Input"/> 
-         </h:panelGrid>
-       <!-- end of Detail panelGrid -->  
-       <!-- Student Detail panelGrid first 3 columns -->
-       <p>
-       <div>Student Detail</div>
-       </p>
-       
-        <h:panelGrid columns="3" style="height: 10px; width: 360px;">      
-            <h:outputLabel value="Student ID"/>
-            <h:inputText id="checkout_StudentID_Input"/>
-            <h:commandButton value="Search"
-                             id="chechout_Search_CommandButton"/>
-        </h:panelGrid>
-       <!-- end of first 3 columns of Student Detail -->
-       <!-- Student detail Panel 2 columns -->
-        <h:panelGrid columns="2" style="height: 96px; width: 300px;">    
-            <h:outputLabel value="First Name"/>
-            <h:inputText id="checkout_FirstName_Input"/>           
-            
-            <h:outputLabel value="Last Name"/>
-            <h:inputText id="checkout_LastName_Input"/>
-            
-            <h:outputLabel value="Course"/>
-            <h:inputText id="checkout_Course_Input"/>
-            
-            <h:outputLabel value="Branch"/>
-            <h:inputText id="checkout_Branch_Input"/>  
-            
-            <h:outputLabel value="Year"/>
-            <h:inputText id="checkout_Year_Input"/>
-            
-            <h:outputLabel value="Semester"/>
-            <h:inputText id="checkout_Semester_Input"/>
-        </h:panelGrid>
-       <!-- end of 2 Student Columns -->
-       <p>
-       <h:panelGrid columns="2" style="height: 96px; width: 300px;">
-           <h:outputLabel value="Date of Issue"/>
-           <h:inputText id="checkout_DateIssue_Input"/>
-           
-           <h:commandButton value="Issue"
-                            id="chechoutIssueButton"/>
-           <h:commandButton value="Back"
-                            id="checkout_Back_Button"/>
-       </h:panelGrid>
-       </p>
-        </h:form>
-        <!-- end of Form -->
-    </h:body>
+    <ui:composition template="template.xhtml">    
+        <ui:define name="head">
+            <title>Checkout Book</title>
+        </ui:define>
+        <ui:define name ="contents">
+            <p>
+                <div>Book Detail</div>
+            </p>
+            <h:body>
+                <!-- Start of form -->
+                <h:form>
+
+                    <!--first 3 columns grid for Book ID, input, and Search button -->
+                    <h:panelGrid columns="3" style="height: 10px; width: 360px;">
+                        <h:outputLabel value="Book ID"/>
+                        <h:inputText id="checkout_BookID_Input"/>
+                        <h:commandButton value="Search"
+                                         id="checkout_Searh_CommandButton"/>
+                    </h:panelGrid>
+                    <!-- end of first Grid Panel -->
+                    <!-- second 2 column panelGrid for Book detail -->
+                    <h:panelGrid columns="2" style="height: 96px; width: 300px;">  
+                        <h:outputLabel value="Book Name"/>
+                        <h:inputText id="checkout_BookName_Input"/>
+
+                        <h:outputLabel value="Edition"/>
+                        <h:inputText id="checkout_Edition_Input"/> 
+
+                        <h:outputLabel value="Publisher"/>
+                        <h:inputText id="checkout_Publisher_Input"/> 
+
+                        <h:outputLabel value="Price"/>
+                        <h:inputText id="checkout_Price_Input"/> 
+
+                        <h:outputLabel value="Pages"/>
+                        <h:inputText id="checkout_Pages_Input"/> 
+                    </h:panelGrid>
+                    <!-- end of Detail panelGrid -->  
+                    <!-- Student Detail panelGrid first 3 columns -->
+                    <p>
+                        <div>Student Detail</div>
+                    </p>
+
+                    <h:panelGrid columns="3" style="height: 10px; width: 360px;">      
+                        <h:outputLabel value="Student ID"/>
+                        <h:inputText id="checkout_StudentID_Input"/>
+                        <h:commandButton value="Search"
+                                         id="chechout_Search_CommandButton"/>
+                    </h:panelGrid>
+                    <!-- end of first 3 columns of Student Detail -->
+                    <!-- Student detail Panel 2 columns -->
+                    <h:panelGrid columns="2" style="height: 96px; width: 300px;">    
+                        <h:outputLabel value="First Name"/>
+                        <h:inputText id="checkout_FirstName_Input"/>           
+
+                        <h:outputLabel value="Last Name"/>
+                        <h:inputText id="checkout_LastName_Input"/>
+
+                        <h:outputLabel value="Course"/>
+                        <h:inputText id="checkout_Course_Input"/>
+
+                        <h:outputLabel value="Branch"/>
+                        <h:inputText id="checkout_Branch_Input"/>  
+
+                        <h:outputLabel value="Year"/>
+                        <h:inputText id="checkout_Year_Input"/>
+
+                        <h:outputLabel value="Semester"/>
+                        <h:inputText id="checkout_Semester_Input"/>
+                    </h:panelGrid>
+                    <!-- end of 2 Student Columns -->
+                    <p>
+                        <h:panelGrid columns="2" style="height: 96px; width: 300px;">
+                            <h:outputLabel value="Date of Issue"/>
+                            <h:inputText id="checkout_DateIssue_Input"/>
+
+                            <h:commandButton value="Issue"
+                                             id="chechoutIssueButton"/>
+                            <h:commandButton value="Back"
+                                             id="checkout_Back_Button"/>
+                        </h:panelGrid>
+                    </p>
+                </h:form>
+                <!-- end of Form -->
+            </h:body>
+        </ui:define>
+    </ui:composition>
 </html>
