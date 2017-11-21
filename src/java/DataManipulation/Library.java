@@ -1,26 +1,20 @@
 package DataManipulation;
 
-//import javax.annotation.sql.DataSourceDefinition;
-//import javax.inject.Named;
+
 import javax.faces.bean.ManagedBean;
 import java.sql.*;
+import java.time.Instant;
 import java.time.LocalDateTime;
-
-/*@DataSourceDefinition(
-        name="java:global/jdbc/library",
-        className = "com.mysql.jdbc.Driver",
-        url = "jdbc:mysql:localhost/library",
-        databaseName = "library",
-        user = "librarian",
-        password = "booksrfun451"
-)*/
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.util.converter.LocalDateTimeStringConverter;
 
 
-//@Named
 @ManagedBean
 public class Library {
 
-    final private String CONNECTION_DATABASE = "jdbc:mysql:library";
+    final private String CONNECTION_DATABASE = "jdbc:mysql://localhost:3306/library";
     final private String CONNECTION_AUTH_USER = "librarian";
     final private String CONNECTION_AUTH_PASSWORD = "booksrfun451";
 
@@ -28,14 +22,16 @@ public class Library {
     private Connection connection;
 
     //also should be in the specs!
-    Library(){
+    public Library(){
         try{
+            Class.forName("com.mysql.jdbc.Driver");
             connection = DriverManager.getConnection(CONNECTION_DATABASE, CONNECTION_AUTH_USER, CONNECTION_AUTH_PASSWORD);
         }
         catch(SQLException e) {
             System.out.println("SQL error encountered.");
-            System.out.println(e.toString());
-            System.exit(1);
+            System.out.println(e.getMessage());
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
         }
     }
 
@@ -112,6 +108,10 @@ public class Library {
 
     public Record getRecordByID(int recordID) throws SQLException {
         return fetchRecord(Integer.toString(recordID), "recordID");
+    }
+    public ArrayList<Record> getAllRecords() throws SQLException {
+        System.out.println("Starting...");
+        return fetchAllRecords();
     }
 
     public User getUserbyName(String name) throws SQLException {
@@ -202,19 +202,83 @@ public class Library {
                         result.getInt("security_question"),
                         result.getString("security_answer")
                 ),
-                LocalDateTime.parse(result.getString("checkout_date"))
+                //LocalDateTime.parse(result.getString("checkout_date"))
+                result.getTimestamp("checkout_date")
         );
 
         if(!result.getString("checkout_date").isEmpty()) {
-            record.setReturnDate(LocalDateTime.parse(result.getString("return_date")));
+            //record.setReturnDate(LocalDateTime.parse(result.getString("return_date")));
+            record.setReturnDate(result.getTimestamp("return_date"));
         }
 
         return record;
     }
 
-    //TODO: Create method to get all statistics
+    private ArrayList<Record> fetchAllRecords() throws SQLException {
+        PreparedStatement statement;
+        ResultSet results;
+        ArrayList<Record> list = new ArrayList<>();
 
+        
+        System.out.println("Got to the private method.");
+        
+        try {
+            statement = connection.prepareStatement("SELECT * FROM records\n");
 
+            results = statement.executeQuery();
+
+            while( results.next() )
+            {
+                list.add(new Record(
+                        results.getInt("recordID"),
+                        results.getInt("bookID"),
+                        results.getInt("userID"),
+                        results.getTimestamp("checkout_date")
+                ));
+                System.out.println("Found record #" + results.getInt("recordID"));
+            }
+        }
+        catch(SQLException err)
+        {
+            System.out.println("SQL ERROR!");
+            System.out.println(err.getMessage());
+        }
+
+        if( list.isEmpty())
+            list.add(new Record());
+
+        return list;
+    }
+
+    public ArrayList<Student> getAllStudents(){
+        ArrayList<Student> studentList = new ArrayList<>();
+        try {
+            PreparedStatement students = connection.prepareStatement("SELECT * FROM students");
+            ResultSet studentResults = students.executeQuery();
+            
+            while(studentResults.next())
+            {
+                studentList.add(new Student(
+                        studentResults.getInt("studentID"),
+                        studentResults.getString("first_name"),
+                        studentResults.getString("last_name"),
+                        studentResults.getString("email"),
+                        studentResults.getString("phone")
+                ));
+            }
+            
+            
+        } catch (SQLException ex) {
+            
+            Logger.getLogger(Library.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return studentList;
+    }
+    public Timestamp nowTimestamp()
+    {
+        return Timestamp.from(Instant.now());
+    }
 
 
 }

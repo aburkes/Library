@@ -9,33 +9,34 @@
         <title>View Book Checkout History</title>
     </ui:define>
     <ui:define name="contents">
+
+        <h:outputText value="#{library.getAllRecords()}" />
+        
         <h:form id="studentForm">
-            <h:dataTable id="studentTable" binding="#{table}" value="#{studentBean.getAllStudents()}" var="student">
+            <h:dataTable id="studentTable" binding="#{table}" value="#{library.getAllRecords()}" var="record">
                 <h:column>
-                    <f:facet name="header">Student ID</f:facet>
-                    <h:outputText value="#{student.studentID}" />
+                    <f:facet name="header">record ID</f:facet>
+                    <h:outputText value="#{record.recordID}" />
                 </h:column>
                 <h:column>
-                    <f:facet name="header">First Name</f:facet>
-                    <h:outputText value="#{student.firstName}" />
+                    <f:facet name="header">Book ID</f:facet>
+                    <h:outputText value="#{record.book.title}" />
                 </h:column>
                 <h:column>
-                    <f:facet name="header">Last Name</f:facet>
-                    <h:outputText value="#{student.lastName}" />
+                    <f:facet name="header">Student</f:facet>
+                    <h:outputText value="#{record.student.firstName}" /> <h:outputText value="#{record.student.lastName}" />
                 </h:column>
                 <h:column>
-                    <f:facet name="header">Email Address</f:facet>
-                    <h:outputText value="#{student.email}" />
+                    <f:facet name="header">Checked Out By</f:facet>
+                    <h:outputText value="#{record.user.userName}" />
                 </h:column>
                 <h:column>
-                    <f:facet name="header">Phone Number</f:facet>
-                    <h:outputText value="#{student.phone}" />
+                    <f:facet name="header">Checkout Date</f:facet>
+                    <h:outputText value="#{record.checkoutDate}" />
                 </h:column>
                 <h:column>
-                    <h:commandButton value="Delete Student" action="#{studentBean.deleteStudent(student.getStudentID())}" />
-                </h:column>
-                <h:column>
-                    <h:commandButton value="Edit Student" action="#{studentBean.requestEditForm(student.getStudentID())}" />
+                    <f:facet name="header">Return Date</f:facet>
+                    <h:outputText value="#{record.returnDate}" />
                 </h:column>
             </h:dataTable>
         </h:form>

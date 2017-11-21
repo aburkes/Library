@@ -1,18 +1,20 @@
 package DataManipulation;
 
+import java.sql.Timestamp;
 import javax.faces.bean.ManagedBean;
-import java.time.LocalDateTime;
 
 @ManagedBean
 public class Record {
 
-    private int recordID;
-    private Book book;
-    private User user;
-    private Student student;
-    private LocalDateTime checkoutDate, returnDate;
+    public int recordID;
+    public Book book;
+    public User user;
+    public Student student;
+    public Timestamp checkoutDate, returnDate;
 
-    public Record(int recordID, Book book, Student student, User user, LocalDateTime checkoutDate) {
+    public Record(){}
+
+    public Record(int recordID, Book book, Student student, User user, Timestamp checkoutDate) {
         this.recordID = recordID;
         this.book = book;
         this.user = user;
@@ -21,7 +23,7 @@ public class Record {
         this.returnDate = returnDate;
     }
 
-    public Record(Book book, Student student, User user, LocalDateTime checkoutDate) {
+    public Record(Book book, Student student, User user, Timestamp checkoutDate) {
         this.book = book;
         this.user = user;
         this.student = student;
@@ -29,7 +31,7 @@ public class Record {
         this.returnDate = returnDate;
     }
 
-    public Record(int bookID, int studentID, int userID, LocalDateTime checkoutDate) {
+    public Record(int bookID, int studentID, int userID, Timestamp checkoutDate) {
         this.book = new Book(bookID, null, 0, null, 0, 0);
         this.user = new User(userID, null, null, 0, null);
         this.student = new Student(studentID, null, null, null, null);
@@ -52,15 +54,15 @@ public class Record {
         return student;
     }
 
-    public LocalDateTime getCheckoutDate() {
+    public Timestamp getCheckoutDate() {
         return checkoutDate;
     }
 
-    public LocalDateTime getReturnDate() {
+    public Timestamp getReturnDate() {
         return returnDate;
     }
 
-    public void setReturnDate(LocalDateTime returnDate) {
+    public void setReturnDate(Timestamp returnDate) {
         this.returnDate = returnDate;
     }
 }
