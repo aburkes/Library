@@ -14,7 +14,7 @@ import javafx.util.converter.LocalDateTimeStringConverter;
 @ManagedBean
 public class Library {
 
-    final private String CONNECTION_DATABASE = "jdbc:mysql://localhost:3306/library";
+    final private String CONNECTION_DATABASE = "jdbc:mysql://localhost:3306/library?zeroDateTimeBehavior=convertToNull";
     final private String CONNECTION_AUTH_USER = "librarian";
     final private String CONNECTION_AUTH_PASSWORD = "booksrfun451";
 
@@ -107,7 +107,7 @@ public class Library {
     }
 
     public Record getRecordByID(int recordID) throws SQLException {
-        return fetchRecord(Integer.toString(recordID), "recordID");
+        return fetchRecord("" + recordID, "recordID");
     }
     public ArrayList<Record> getAllRecords() throws SQLException {
         System.out.println("Starting...");
@@ -165,70 +165,91 @@ public class Library {
     private Record fetchRecord(String compare, String field) throws SQLException {
         Record record;
 
-        //we are getting everything in one go for the sake of efficiency.
-        PreparedStatement statement = connection.prepareStatement(
-                "SELECT * FROM records\n" +
-                        "JOIN books ON books.bookID = records.bookID\n" +
-                        "JOIN students ON students.studentID = records.studentID\n" +
-                        "JOIN users ON users.userID = records.userID\n" +
-                        "WHERE ? = ?"
-        );
-        statement.setString(1, field);
-        statement.setString(2, compare);
-        ResultSet result = statement.executeQuery();
+        try {
+
+            //we are getting everything in one go for the sake of efficiency.
+            PreparedStatement statement = connection.prepareStatement(
+                    "SELECT * FROM records\n" +
+                            "JOIN books ON books.bookID = records.bookID\n" +
+                            "JOIN students ON students.studentID = records.studentID\n" +
+                            "JOIN users ON users.userID = records.userID\n" +
+                            "WHERE recordID = ?"
+            );
+            //statement.setString(1, "records." +field);
+            //statement.setString(2, compare);
+            statement.setInt(1, Integer.parseInt(compare));
+            System.out.println("Statement created, " + field + " must equal " + compare);
+            System.out.println(statement.toString());
+            ResultSet result = statement.executeQuery();
+            ResultSetMetaData meta = result.getMetaData();
+            System.out.println("Statement Executed. ");
+            
+            if(result.next())
+                System.out.println("There is at least one result!");
+            
 
 
-        record = new Record(
-                result.getInt("recordID"),
-                new Book(
-                        result.getInt("bookID"),
-                        result.getString("title"),
-                        result.getInt("edition"),
-                        result.getString("publisher"),
-                        result.getInt("price"),
-                        result.getInt("pages")
-                ),
-                new Student(
-                        result.getInt("studentID"),
-                        result.getString("first_name"),
-                        result.getString("last_name"),
-                        result.getString("email"),
-                        result.getString("phone")
-                ),
-                new User(
-                        result.getInt("userID"),
-                        result.getString("name"),
-                        result.getString("password"),
-                        result.getInt("security_question"),
-                        result.getString("security_answer")
-                ),
-                //LocalDateTime.parse(result.getString("checkout_date"))
-                result.getTimestamp("checkout_date")
-        );
+            record = new Record(
+                    result.getInt("recordID"),
+                    new Book(
+                            result.getInt("bookID"),
+                            result.getString("title"),
+                            result.getInt("edition"),
+                            result.getString("publisher"),
+                            result.getInt("price"),
+                            result.getInt("pages")
+                    ),
+                    new Student(
+                            result.getInt("studentID"),
+                            result.getString("first_name"),
+                            result.getString("last_name"),
+                            result.getString("email"),
+                            result.getString("phone")
+                    ),
+                    new User(
+                            result.getInt("userID"),
+                            result.getString("name"),
+                            result.getString("password"),
+                            result.getInt("security_question"),
+                            result.getString("security_answer")
+                    ),
+                    //LocalDateTime.parse(result.getString("checkout_date"))
+                    result.getTimestamp("checkout_date")
+            );
 
-        if(!result.getString("checkout_date").isEmpty()) {
-            //record.setReturnDate(LocalDateTime.parse(result.getString("return_date")));
-            record.setReturnDate(result.getTimestamp("return_date"));
+            if(result.getTimestamp("return_date") != null) {
+                //record.setReturnDate(LocalDateTime.parse(result.getString("return_date")));
+                record.setReturnDate(result.getTimestamp("return_date"));
+            }
+        }
+        catch(SQLException err) {
+            System.out.println("SQL Error!");
+            System.out.println(err.getMessage());
+            err.printStackTrace();
+            return new Record();
         }
 
         return record;
     }
 
     private ArrayList<Record> fetchAllRecords() throws SQLException {
-        PreparedStatement statement;
+        PreparedStatement recordStatement;
         ResultSet results;
         ArrayList<Record> list = new ArrayList<>();
 
         
-        System.out.println("Got to the private method.");
         
         try {
-            statement = connection.prepareStatement("SELECT * FROM records\n");
+            recordStatement = connection.prepareStatement("SELECT recordID FROM records");
 
-            results = statement.executeQuery();
+            results = recordStatement.executeQuery();
 
             while( results.next() )
             {
+                //list.add(fetchRecord("recordID", "" + results.getInt(1)));
+                list.add(getRecordByID(results.getInt(1)));
+                
+                /*
                 list.add(new Record(
                         results.getInt("recordID"),
                         results.getInt("bookID"),
@@ -236,6 +257,7 @@ public class Library {
                         results.getTimestamp("checkout_date")
                 ));
                 System.out.println("Found record #" + results.getInt("recordID"));
+                */
             }
         }
         catch(SQLException err)
@@ -275,6 +297,8 @@ public class Library {
         
         return studentList;
     }
+    
+    
     public Timestamp nowTimestamp()
     {
         return Timestamp.from(Instant.now());

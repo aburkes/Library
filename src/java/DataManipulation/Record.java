@@ -41,6 +41,7 @@ public class Record {
     public int getRecordID() {
         return recordID;
     }
+    
 
     public Book getBook() {
         return book;
@@ -65,4 +66,24 @@ public class Record {
     public void setReturnDate(Timestamp returnDate) {
         this.returnDate = returnDate;
     }
+    
+    @Override
+    public String toString() {
+        String toReturn = "record: " + this.recordID + "; ";
+        if(this.book != null)
+            toReturn += "Title: " + this.book + "; ";
+        if(this.user != null)
+            toReturn += "User: " + this.user + "; ";
+        if((this.student != null))
+            toReturn += "Student: " + this.student + "; ";
+        if(this.checkoutDate != null)
+            toReturn += "Checkout: " + this.checkoutDate + "; ";
+        if(this.returnDate != null)
+            toReturn += "Return: " + this.returnDate;
+        else
+            toReturn += "Book is still checked out";
+        
+        return toReturn;
+    }
+    
 }

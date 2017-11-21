@@ -8,10 +8,7 @@
     <ui:define name="head">
         <title>View Book Checkout History</title>
     </ui:define>
-    <ui:define name="contents">
-
-        <h:outputText value="#{library.getAllRecords()}" />
-        
+    <ui:define name="contents">        
         <h:form id="studentForm">
             <h:dataTable id="studentTable" binding="#{table}" value="#{library.getAllRecords()}" var="record">
                 <h:column>
@@ -24,7 +21,7 @@
                 </h:column>
                 <h:column>
                     <f:facet name="header">Student</f:facet>
-                    <h:outputText value="#{record.student.firstName}" /> <h:outputText value="#{record.student.lastName}" />
+                    <h:outputText value="#{record.student.lastName}" />, <h:outputText value="#{record.student.firstName}" />
                 </h:column>
                 <h:column>
                     <f:facet name="header">Checked Out By</f:facet>
