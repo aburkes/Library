@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+<ui:composition template="template.xhtml">
+    <ui:define name="head">
+        <title>View Book Checkout History</title>
+    </ui:define>
+    <ui:define name="contents">        
+        <h:form id="studentForm">
+            <h:dataTable id="studentTable" binding="#{table}" value="#{library.getAllRecords()}" var="record">
+                <h:column>
+                    <f:facet name="header">record ID</f:facet>
+                    <h:outputText value="#{record.recordID}" />
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Book ID</f:facet>
+                    <h:outputText value="#{record.book.title}" />
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Student</f:facet>
+                    <h:outputText value="#{record.student.lastName}" />, <h:outputText value="#{record.student.firstName}" />
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Checked Out By</f:facet>
+                    <h:outputText value="#{record.user.userName}" />
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Checkout Date</f:facet>
+                    <h:outputText value="#{record.checkoutDate}" />
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Return Date</f:facet>
+                    <h:outputText value="#{record.returnDate}" />
+                </h:column>
+            </h:dataTable>
+        </h:form>
+    </ui:define>
+</ui:composition>
+</html>
+

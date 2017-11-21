@@ -83,7 +83,8 @@ and open the template in the editor.
                     <p>
                         <h:panelGrid columns="2" style="height: 96px; width: 300px;">
                             <h:outputLabel value="Date of Issue"/>
-                            <h:inputText id="checkout_DateIssue_Input"/>
+                            <h:inputText id="checkout_DateIssue_Input"
+                                         value="#{library.nowTimestamp()}" />
 
                             <h:commandButton value="Issue"
                                              id="chechoutIssueButton"/>

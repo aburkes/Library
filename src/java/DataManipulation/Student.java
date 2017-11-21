@@ -1,9 +1,12 @@
 package DataManipulation;
 
+import javax.faces.bean.ManagedBean;
+
 /**
  *
  * @author Jimmy Hoang
  */
+@ManagedBean
 public class Student {
     //fields 
     private int studentID;
@@ -11,6 +14,9 @@ public class Student {
     private String lastName;
     private String email;
     private String phone;
+
+    public Student(){}
+
     //Constructor with student ID implemented
     public Student(int studentID, String firstName, String lastName, String email, String phone) {
         this.studentID = studentID;

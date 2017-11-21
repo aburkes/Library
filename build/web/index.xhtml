@@ -1,12 +1,19 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
-    <h:head>
-        <title>Facelet Title</title>
-    </h:head>
-    <h:body>
-        Hello from Facelets - #{dataManipulation.testString}
-    </h:body>
+      xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<ui:composition template="template.xhtml">
+    <ui:define name="head">
+        <title>Index page test</title>
+    </ui:define>
+    <ui:define name="contents">
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad corporis doloribus ea ex, iste molestiae officia pariatur soluta sunt veritatis. Corporis, enim incidunt ipsum iure obcaecati officia porro quos voluptate.</p>
+        <p>Accusantium ad adipisci aspernatur corporis dignissimos enim explicabo illo inventore itaque labore laboriosam nemo quia similique, tempora, voluptatibus? Deleniti enim, esse eveniet fuga laboriosam laudantium maiores officiis qui tenetur vero!</p>
+        <p>Ab alias asperiores consectetur delectus dolorem error harum, inventore ipsa ipsum iste nemo nesciunt, optio qui quos reprehenderit rerum tenetur voluptas! Architecto blanditiis distinctio enim eos incidunt modi quisquam? Vero.</p>
+        <p>A ad amet consectetur debitis, doloribus earum enim, illo magnam minima nobis nulla numquam obcaecati officia, officiis optio perferendis quam quo quod ratione rem repellendus sunt unde veritatis vero voluptate?</p>
+        <p>Accusamus accusantium debitis incidunt ipsa minima, nesciunt possimus reprehenderit saepe sapiente vitae! Accusamus ad amet assumenda eius est ex, facilis in iste magnam quidem repudiandae sapiente vitae voluptatem. Neque, quidem.</p>
+    </ui:define>
+</ui:composition>
 </html>
 
