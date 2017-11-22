@@ -13,49 +13,46 @@ and open the template in the editor.
     <ui:composition template="template.xhtml">
         <ui:define name="head">
             <title>Return Books</title>
+            <header><h1>Return Books</h1></header>
         </ui:define>
         <ui:define name="contents">
             <h:body>
-                <!--  <div>TODO write content</div> -->
-                <p>
-                    <div> Return Books </div>
-                </p>
                 <h:form>
                     <h:panelGrid columns="2" style="height: 96px; width: 456px;"> 
                         <h:panelGrid columns="2" style="height: 96px; width: 456px;"> 
-                            <h:outputText value="Student ID" />
+                            <h:outputLabel value="Student ID" />
                             <h:inputText  id="student_id_inputText"/>
-                            <h:outputText value="First Name" />
+                            <h:outputLabel value="First Name" />
                             <h:inputText id="firstNameInputText" />
-                            <h:outputText value="Last Name" />
+                            <h:outputLabel value="Last Name" />
                             <h:inputText id="lastNameInputText"/>
-                            <h:outputText value="Course" />
+                            <h:outputLabel value="Course" />
                             <h:inputText id="courseInputText" />
-                            <h:outputText value="Year"/>
+                            <h:outputLabel value="Year"/>
                             <h:inputText id="yearInputText"/>
-                            <h:outputText value="Semester" />
+                            <h:outputLabel value="Semester" />
                             <h:inputText id="semesterInputText"/>
                         </h:panelGrid>
 
                         <h:panelGrid columns ="2" style="height: 96px; width: 456px;">
-                            <h:outputText value="Book ID"/>
+                            <h:outputLabel value="Book ID"/>
                             <h:inputText id="bookIdInputText"/>
-                            <h:outputText value="Name"/>
+                            <h:outputLabel value="Name"/>
                             <h:inputText id="bookNameInputTxt"/>
-                            <h:outputText value="Edition"/>
+                            <h:outputLabel value="Edition"/>
                             <h:inputText id="editionInputText"/>
-                            <h:outputText value="Publisher"/>
+                            <h:outputLabel value="Publisher"/>
                             <h:inputText id="publisherInputText"/>
-                            <h:outputText value="Price"/>
+                            <h:outputLabel value="Price"/>
                             <h:inputText id="priceInputText"/>
-                            <h:outputText value="Pages"/>
+                            <h:outputLabel value="Pages"/>
                             <h:inputText id="pageInputText"/>
-                            <h:outputText value="Date Of Issue"/>
+                            <h:outputLabel value="Date Of Issue"/>
                             <h:inputText id="dateInputText"/>
                         </h:panelGrid>
                     </h:panelGrid>
                     <h:panelGrid columns ="2" style="height: 96px; width: 456px;">
-                        <h:outputText value="Return Date"/>
+                        <h:outputLabel value="Return Date"/>
                         <h:inputText id="returnInputText"/>
                         <h:commandButton value="Return"
                                          id="returnCommandButton"/>
