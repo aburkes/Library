@@ -12,25 +12,26 @@ and open the template in the editor.
     <ui:composition template="template.xhtml">
         <ui:define name="head">
             <title>Add Student</title>
+            <header><h1>Add Student</h1></header>
         </ui:define>
         <ui:define name="contents">
             <h:body>
                 <p>
-                    <div>New Student</div>
+                    <div><h4>New Student</h4></div>
                 </p>
                 <h:form>
                     <h:panelGrid columns="2" style="height: 96px; width: 456px;">
-                        <h:outputText value="Student ID"/>
+                        <h:outputLabel value="Student ID"/>
                         <h:inputText id="studentIDInputText"/>
-                        <h:outputText value="First Name"/>
+                        <h:outputLabel value="First Name"/>
                         <h:inputText id="firstNameInputText"/>
-                        <h:outputText value="Last Name"/>
+                        <h:outputLabel value="Last Name"/>
                         <h:inputText id="lastNameInputText"/>
-                        <h:outputText value="Course"/>
+                        <h:outputLabel value="Course"/>
                         <h:inputText id="courseInputText"/>
-                        <h:outputText value="Year"/>
+                        <h:outputLabel value="Year"/>
                         <h:inputText id="yearInputText"/>
-                        <h:outputText value="Semester"/>
+                        <h:outputLabel value="Semester"/>
                         <h:inputText id="semesterInputText"/>
                         <h:commandButton value="Register"
                                          id="registerCommandButton"/>

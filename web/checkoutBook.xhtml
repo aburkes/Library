@@ -9,92 +9,79 @@ and open the template in the editor.
         xmlns:h="http://xmlns.jcp.org/jsf/html"
         xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
         xmlns:f="http://xmlns.jcp.org/jsf/core">
+
     <ui:composition template="template.xhtml">    
         <ui:define name="head">
             <title>Checkout Book</title>
             <header><h1>Checkout Book</h1></header>
         </ui:define>
         <ui:define name ="contents"> 
-                <div><h3>Book Detail</h3></div>
-                <center><div><h3>Student Detail</h3></div></center>
+            <div><h3>Book Detail</h3></div>
+            <!--<center><div><h3>Student Detail</h3></div></center>-->
             <h:body>
                 <!-- Start of form -->
                 <h:form>
-
-                    <!--first 3 columns grid for Book ID, input, and Search button -->  
-                    <!-- end of first Grid Panel -->
-                    <!-- second 2 column panelGrid for Book detail -->
-                    <h:panelGrid columns="2" style="height: 96px; width: 456px;"> 
+                    <borderlayout class="ex1">
                         <h:panelGrid columns="2" style="height: 96px; width: 456px;">
-                            <h:outputLabel value="Book ID"/>
-                            <h:inputText id="checkout_BookID_Input"/>
+                            <h:panelGrid columns="2" style="height: 96px; width: 456px;">
+                                <h:outputLabel value="Book ID"/>
+                                <h:inputText id="checkout_BookID_Input"/>
 
-                            <h:outputLabel value="Book Name"/>
-                            <h:inputText id="checkout_BookName_Input"/>
+                                <h:outputLabel value="Book Name"/>
+                                <h:inputText id="checkout_BookName_Input"/>
 
-                            <h:outputLabel value="Edition"/>
-                            <h:inputText id="checkout_Edition_Input"/> 
+                                <h:outputLabel value="Edition"/>
+                                <h:inputText id="checkout_Edition_Input"/> 
 
-                            <h:outputLabel value="Publisher"/>
-                            <h:inputText id="checkout_Publisher_Input"/> 
+                                <h:outputLabel value="Publisher"/>
+                                <h:inputText id="checkout_Publisher_Input"/> 
 
-                            <h:outputLabel value="Price"/>
-                            <h:inputText id="checkout_Price_Input"/> 
+                                <h:outputLabel value="Price"/>
+                                <h:inputText id="checkout_Price_Input"/> 
 
-                            <h:outputLabel value="Pages"/>
-                            <h:inputText id="checkout_Pages_Input"/> 
-                            <center>
-                                <h:commandButton value="Search"
-                                                 id="checkout_Searh_CommandButton"/>
-                            </center>
+                                <h:outputLabel value="Pages"/>
+                                <h:inputText id="checkout_Pages_Input"/> 
+                                <center>
+                                    <h:commandButton value="Search"
+                                                     id="checkout_Searh_CommandButton"/>
+                                </center>
+                            </h:panelGrid>
+                            <h:panelGrid columns="2" style="height: 96px; width: 456px;"> 
+                                <h:outputLabel value="Student ID"/>
+                                <h:inputText id="checkout_StudentID_Input"/>
+
+                                <h:outputLabel value="First Name"/>
+                                <h:inputText id="checkout_FirstName_Input"/>           
+
+                                <h:outputLabel value="Last Name"/>
+                                <h:inputText id="checkout_LastName_Input"/>
+
+                                <h:outputLabel value="Course"/>
+                                <h:inputText id="checkout_Course_Input"/>
+
+                                <h:outputLabel value="Branch"/>
+                                <h:inputText id="checkout_Branch_Input"/>  
+
+                                <h:outputLabel value="Year"/>
+                                <h:inputText id="checkout_Year_Input"/>
+
+                                <h:outputLabel value="Semester"/>
+                                <h:inputText id="checkout_Semester_Input"/>
+                                <center>
+                                    <h:commandButton value="Search"
+                                                     id="chechout_Search_CommandButton"/>
+                                    <h:outputLabel value="Date of Issue"/>
+                                    <h:inputText id="checkout_DateIssue_Input"
+                                                 value="#{library.nowTimestamp()}" />
+
+                                    <h:commandButton value="Issue"
+                                                     id="chechoutIssueButton"/>
+                                    <h:commandButton value="Back"
+                                                     id="checkout_Back_Button"/>
+                                </center>
+                            </h:panelGrid>
                         </h:panelGrid>
-                        <h:panelGrid columns="2" style="height: 96px; width: 456px;"> 
-                            <h:outputLabel value="Student ID"/>
-                            <h:inputText id="checkout_StudentID_Input"/>
-
-                            <h:outputLabel value="First Name"/>
-                            <h:inputText id="checkout_FirstName_Input"/>           
-
-                            <h:outputLabel value="Last Name"/>
-                            <h:inputText id="checkout_LastName_Input"/>
-
-                            <h:outputLabel value="Course"/>
-                            <h:inputText id="checkout_Course_Input"/>
-
-                            <h:outputLabel value="Branch"/>
-                            <h:inputText id="checkout_Branch_Input"/>  
-
-                            <h:outputLabel value="Year"/>
-                            <h:inputText id="checkout_Year_Input"/>
-
-                            <h:outputLabel value="Semester"/>
-                            <h:inputText id="checkout_Semester_Input"/>
-                            <center>
-                                <h:commandButton value="Search"
-                                                 id="chechout_Search_CommandButton"/>
-                                <h:outputLabel value="Date of Issue"/>
-                        <h:inputText id="checkout_DateIssue_Input"
-                                     value="#{library.nowTimestamp()}" />
-
-                        <h:commandButton value="Issue"
-                                         id="chechoutIssueButton"/>
-                        <h:commandButton value="Back"
-                                         id="checkout_Back_Button"/>
-                            </center>
-                        </h:panelGrid> 
-                    </h:panelGrid>
-
-                    <!-- end of 2 Student Columns -->
-                   <!-- <h:panelGrid columns="2" style="height: 96px; width: 300px;">
-                        <h:outputLabel value="Date of Issue"/>
-                        <h:inputText id="checkout_DateIssue_Input"
-                                     value="#{library.nowTimestamp()}" />
-
-                        <h:commandButton value="Issue"
-                                         id="chechoutIssueButton"/>
-                        <h:commandButton value="Back"
-                                         id="checkout_Back_Button"/>
-                    </h:panelGrid>-->
+                    </borderlayout>
                 </h:form>
             </h:body>
         </ui:define>
