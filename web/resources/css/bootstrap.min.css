@@ -22,6 +22,11 @@ body {
   margin: 0;
 }
 
+borderlayout.ex1{
+    border: 1px black;
+    outline-style: double;
+    outline-color: invert;
+}
 article,aside,details,figcaption,figure,footer,header,hgroup,main,menu,nav,section,summary {
   display: block;
 }
