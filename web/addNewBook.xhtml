@@ -12,26 +12,26 @@ and open the template in the editor.
     <ui:composition template="template.xhtml">
         <ui:define name="head">
             <title>New Books</title>
+            <header><h1>New Books</h1></header>
         </ui:define>
         <ui:define name="contents">
-
             <h:body>
                 <p>
                     <div>New Book</div>
                 </p>
                 <h:form>
                     <h:panelGrid columns="2" style="height: 96px; width: 456px;">
-                        <h:outputText value="Book ID"/>
+                        <h:outputLabel value="Book ID"/>
                         <h:inputText id="newBookInputText"/>
-                        <h:outputText value="Book Name"/>
+                        <h:outputLabel value="Book Name"/>
                         <h:inputText id="newBookNameInputText"/>
-                        <h:outputText value="Edition"/>
+                        <h:outputLabel value="Edition"/>
                         <h:inputText id="newBookEditionInputText"/>
-                        <h:outputText value="Publisher"/>
+                        <h:outputLabel value="Publisher"/>
                         <h:inputText id="newBookPublisherInput"/>
-                        <h:outputText value="Price"/>
+                        <h:outputLabel value="Price"/>
                         <h:inputText id="newBookPriceInput"/>
-                        <h:outputText value="Pages"/>
+                        <h:outputLabel value="Pages"/>
                         <h:inputText id="newBookPageInput"/>
 
                         <h:commandButton value="Add"
