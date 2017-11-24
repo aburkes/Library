@@ -4,14 +4,14 @@ package DataManipulation;
 import javax.faces.bean.ManagedBean;
 import java.sql.*;
 import java.time.Instant;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.util.converter.LocalDateTimeStringConverter;
+import javax.faces.bean.SessionScoped;
 
 
 @ManagedBean
+@SessionScoped
 public class Library {
 
     final private String CONNECTION_DATABASE = "jdbc:mysql://localhost:3306/library?zeroDateTimeBehavior=convertToNull";
@@ -20,7 +20,10 @@ public class Library {
 
     //should be in the specs, but isn't!
     private Connection connection;
+    private String flashMessage = "";
+    private User user; //user logged in
 
+    
     //also should be in the specs!
     public Library(){
         try{
@@ -35,6 +38,85 @@ public class Library {
         }
     }
 
+    public String getFlashMessage() {
+        String temp = flashMessage;
+        flashMessage = "";
+        return temp;
+    }
+
+    public void setFlashMessage(String flashMessage) {
+        this.flashMessage = flashMessage;
+    }
+
+    
+    
+    /*
+    BEGIN AUTHENTICATION BLOCK
+    */
+    
+    public boolean isAuthenticated(){
+        try {
+            if(this.user == null)
+                return false;
+            else return true;
+        }
+        catch(NullPointerException err) {
+            return false;
+        }
+    }
+    
+    public String login(String username, String password){
+        authenticate(username, password);
+        return ""; //keeps user on same page as requested.
+    }
+    
+    public void logoff() {
+        this.user = null;
+        this.flashMessage = "You have been logged off successfully";
+    }
+    
+    private boolean authenticate(String username, String password) {
+        final String AUTH_FAILURE_MESSAGE = "Authentication failed. Please check your username and password and try again";
+        User thisUser = null;
+        
+        try{
+            System.out.println("Getting User Data");
+            thisUser = getUserbyName(username);
+        }
+        catch(SQLException err) {
+            if(err.getErrorCode() == 0)
+                flashMessage = AUTH_FAILURE_MESSAGE;
+            else {
+                System.out.println("SQL Error!");
+                System.out.println(err.getMessage());
+            }
+        }
+        
+        try{
+            if(thisUser.verifyPassword(password)) {
+               this.user = thisUser;
+               System.out.println("The Password was correct.");
+               return true;
+            }
+            else 
+                flashMessage = AUTH_FAILURE_MESSAGE;
+        }
+        catch(NullPointerException err) {
+            //no need to actually return false since it will do that next anyways.
+            System.out.println(err.getMessage());
+        }
+        
+        //if all else fails...
+        return false;
+    }
+
+ 
+    
+    
+    /*
+    END AUTHENTICATION BLOCK
+    */
+    
     public void newUser(User user, String password, String answer) throws SQLException {
         createUser(user, password, answer);
     }
@@ -121,17 +203,27 @@ public class Library {
 
 
     private User fetchUser(String compare, String field) throws SQLException {
-        PreparedStatement statement = connection.prepareStatement("SELECT * FROM users where ? = ?");
-        statement.setString(1, field);
-        statement.setString(2, compare);
+        User thisUser;
+                
+        PreparedStatement statement = connection.prepareStatement("SELECT * FROM users where " + field + " = ?");
+        statement.setString(1, compare);
+        System.out.println("Prepaired Statement: " + statement.toString());
         ResultSet result = statement.executeQuery();
-        return new User(
+        
+        System.out.println("Statement has been executed.");
+            
+        if(result.next())
+            System.out.println("found user " + result.getString("userID"));
+        
+        thisUser = new User(
                 result.getInt("userID"),
                 result.getString("name"),
                 result.getString("password"),
                 result.getInt("security_question"),
                 result.getString("security_answer")
         );
+        
+        return thisUser;
     }
 
     private Student fetchStudent(int studentID) throws SQLException {
@@ -296,6 +388,10 @@ public class Library {
         }
         
         return studentList;
+    }
+    
+    public boolean flashExists(){
+        return !flashMessage.isEmpty();
     }
     
     
