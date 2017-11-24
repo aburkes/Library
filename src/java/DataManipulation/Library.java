@@ -10,6 +10,11 @@ import java.util.logging.Logger;
 import javax.faces.bean.SessionScoped;
 
 
+/**
+ * Represents a library and its functions.
+ * 
+ * @author Alan Burkes
+ */
 @ManagedBean
 @SessionScoped
 public class Library {
@@ -24,7 +29,9 @@ public class Library {
     private User user; //user logged in
 
     
-    //also should be in the specs!
+    /**
+     * Default constructor
+     */
     public Library(){
         try{
             Class.forName("com.mysql.jdbc.Driver");
@@ -34,7 +41,6 @@ public class Library {
             System.out.println("SQL error encountered.");
             System.out.println(e.getMessage());
         } catch (ClassNotFoundException e) {
-            e.printStackTrace();
         }
     }
 
@@ -54,27 +60,51 @@ public class Library {
     BEGIN AUTHENTICATION BLOCK
     */
     
+    /**
+     * Checks to see if current session is authenticated.
+     * 
+     * @return true if authenticated, false if not.
+     */
     public boolean isAuthenticated(){
         try {
-            if(this.user == null)
-                return false;
-            else return true;
+            return this.user != null;
         }
         catch(NullPointerException err) {
             return false;
         }
     }
     
-    public String login(String username, String password){
+    /**
+     * Authenticates a user.
+     * 
+     * @param username
+     * @param password
+     * @see authenticate
+     */
+    public void login(String username, String password){
         authenticate(username, password);
-        return ""; //keeps user on same page as requested.
+        
     }
     
+    /**
+     * Deauthenticates a user. also closes connection to database.
+     */
     public void logoff() {
         this.user = null;
         this.flashMessage = "You have been logged off successfully";
+        try {
+            connection.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Library.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
+    /**
+     * Authenticates a user. Will find a user in the database by the provided username and verify the password. If successful, it will authenticate a session.
+     * @param username
+     * @param password
+     * @return True if authenticated, otherwise false.
+     */
     private boolean authenticate(String username, String password) {
         final String AUTH_FAILURE_MESSAGE = "Authentication failed. Please check your username and password and try again";
         User thisUser = null;
@@ -110,29 +140,61 @@ public class Library {
         return false;
     }
 
- 
-    
-    
     /*
     END AUTHENTICATION BLOCK
     */
     
+    
+    /**
+     * Calls method to create a new user.
+     * @param user account's username.
+     * @param password account's password.
+     * @param answer answer to user's security question.
+     * @throws SQLException 
+     * @see createUser
+     */
     public void newUser(User user, String password, String answer) throws SQLException {
         createUser(user, password, answer);
     }
 
+    /**
+     * Calls method to create a student
+     * @param student to be created
+     * @throws SQLException 
+     * @see createStudent
+     */
     public void newStudent(Student student) throws SQLException {
         createStudent(student);
     }
 
+    /**
+     * Calls method to create a book.
+     * @param book to be created
+     * @throws SQLException 
+     * @see createBook
+     */
     public void newBook(Book book) throws SQLException {
         createBook(book);
     }
 
+    /**
+     * Calls a method to create a Record
+     * @param record to be created. bookID, studentID, and userID are all required to be valid.
+     * @throws SQLException 
+     * @see createRecord
+     */
     public void newRecord(Record record) throws SQLException {
         createRecord(record);
     }
 
+    /**
+     * Inserts a User object into the database.
+     * 
+     * @param user User object to be inserted.
+     * @param password password to be applied to provided User object
+     * @param answer answer (for security question) to be applied to provided User object
+     * @throws SQLException 
+     */
     private void createUser(User user, String password, String answer) throws SQLException {
         PreparedStatement statement = connection.prepareStatement("INSERT INTO users VALUES (DEFAULT, ?, ?, ?, ?)");
         statement.setString(1, user.getUserName());
@@ -142,6 +204,12 @@ public class Library {
         statement.execute();
     }
 
+    /**
+     * Inserts a Student object into the database.
+     * 
+     * @param student Student object to be inserted.
+     * @throws SQLException 
+     */
     private void createStudent(Student student) throws SQLException {
         PreparedStatement statement = connection.prepareStatement("INSERT INTO students VALUES (DEFAULT, ?, ?, ?, ?)");
         statement.setString(1, student.getFirstName());
@@ -151,6 +219,12 @@ public class Library {
         statement.execute();
     }
 
+    /**
+     * Inserts a Book object into the database.
+     * 
+     * @param book object to be inserted.
+     * @throws SQLException 
+     */
     private void createBook(Book book) throws SQLException {
         PreparedStatement statement = connection.prepareStatement("INSERT INTO books VALUES (DEFAULT, ?, ?, ?, ?, ?)");
         statement.setString(1, book.getTitle());
@@ -161,6 +235,12 @@ public class Library {
         statement.execute();
     }
 
+    /**
+     * Inserts a Record object into the database.
+     * 
+     * @param record object to be inserted.
+     * @throws SQLException 
+     */
     private void createRecord(Record record) throws SQLException {
         PreparedStatement statement = connection.prepareStatement("INSERT INTO records VALUES (DEFAULT, ?, ?, ?, ?, ?)");
         statement.setInt(1, record.getBook().getBookID());
@@ -172,36 +252,90 @@ public class Library {
         statement.setString(4, record.getCheckoutDate().toString());
     }
 
+    /**
+     * Finds a user by their User ID.
+     * 
+     * @param userID their User ID
+     * @return The entire User object.
+     * @throws SQLException 
+     * @see fetchUser
+     */
     public User getUserByID(int userID) throws SQLException {
         return fetchUser(Integer.toString(userID), "userID");
     }
 
+    /**
+     * Finds a Student object by their Student ID
+     * @param studentID Student ID
+     * @return a single matching Student object
+     * @throws SQLException 
+     * @see fetchStudent
+     */
     public Student getStudentByID(int studentID) throws SQLException {
         return fetchStudent(studentID);
     }
 
+    /**
+     * Finds a book by it's ID
+     * @param bookID the book's ID
+     * @return a single matching Book object
+     * @throws SQLException 
+     * @see fetchBook
+     */
     public Book getBookByID(int bookID) throws SQLException {
         return fetchBook(Integer.toString(bookID), "bookID");
     }
 
+    /**
+     * Finds a book by it's title.
+     * @param title the book;s title
+     * @return a single matching Book object.
+     * @throws SQLException 
+     * @see fetchBook
+     */
     public Book getBookByTitle(String title) throws SQLException {
         return fetchBook(title, "title");
     }
 
+    /**
+     * gets a Record by it's ID
+     * @param recordID the record ID
+     * @return a single matching Record object.
+     * @throws SQLException 
+     * @see fetchRecord
+     */
     public Record getRecordByID(int recordID) throws SQLException {
         return fetchRecord("" + recordID, "recordID");
     }
+    
+    /**
+     * Gets all Record objects from the database
+     * @return an ArrayList containing all Records.
+     * @throws SQLException 
+     * @see fetchAllRecords
+     */
     public ArrayList<Record> getAllRecords() throws SQLException {
-        System.out.println("Starting...");
         return fetchAllRecords();
     }
 
+    /**
+     * Gets a single User by their name
+     * @param name the user's username
+     * @return a single matching User object
+     * @throws SQLException 
+     * @see fetchUser
+     */
     public User getUserbyName(String name) throws SQLException {
         return fetchUser(name, "name");
     }
-
-
-
+    
+    /**
+     * Will fetch a single user based on an arbitrary comparison search
+     * @param compare The search term
+     * @param field the field in the database to be searched through
+     * @return a single matching User object or Null if it can't find one.
+     * @throws SQLException 
+     */
     private User fetchUser(String compare, String field) throws SQLException {
         User thisUser;
                 
@@ -225,7 +359,13 @@ public class Library {
         
         return thisUser;
     }
-
+    
+    /**
+     * Fetches a single Student object from the database that matches an arbitrary Student ID number
+     * @param studentID The Student ID to find
+     * @return a single matching Student object, or null if none were found.
+     * @throws SQLException 
+     */
     private Student fetchStudent(int studentID) throws SQLException {
         PreparedStatement statement = connection.prepareStatement("SELECT * FROM  students WHERE studentID = ?");
         statement.setInt(1, studentID);
@@ -239,10 +379,16 @@ public class Library {
         );
     }
 
+    /**
+     * Fetches a single Book object from the database based on an arbitrary comparison search
+     * @param compare The search term to be used
+     * @param field The field where the search will look for the comparison token
+     * @return a single matching Book object, or null if none were found.
+     * @throws SQLException 
+     */
     private Book fetchBook(String compare, String field) throws SQLException {
-        PreparedStatement statement = connection.prepareStatement("SELECT * from books WHERE ? = ?");
-        statement.setString(1, field);
-        statement.setString(2, compare);
+        PreparedStatement statement = connection.prepareStatement("SELECT * from books WHERE " + field + " = ?");
+        statement.setString(1, compare);
         ResultSet result = statement.executeQuery();
         return new Book(
                 result.getInt("bookID"),
@@ -254,6 +400,13 @@ public class Library {
         );
     }
 
+    /**
+     * Fetches a single Record object from the database based on an arbitrary comparison search.
+     * @param compare The token you are searching for
+     * @param field The field upon which the token will be searched for
+     * @return a single matching Record object, or Null if none were found.
+     * @throws SQLException 
+     */
     private Record fetchRecord(String compare, String field) throws SQLException {
         Record record;
 
@@ -265,7 +418,7 @@ public class Library {
                             "JOIN books ON books.bookID = records.bookID\n" +
                             "JOIN students ON students.studentID = records.studentID\n" +
                             "JOIN users ON users.userID = records.userID\n" +
-                            "WHERE recordID = ?"
+                            "WHERE " + field + " = ?"
             );
             //statement.setString(1, "records." +field);
             //statement.setString(2, compare);
@@ -324,18 +477,19 @@ public class Library {
         return record;
     }
 
+    /**
+     * Fetches an ArrayList of all Records in the database.
+     * @return an ArrayList of all Records in the database
+     * @throws SQLException 
+     */
     private ArrayList<Record> fetchAllRecords() throws SQLException {
         PreparedStatement recordStatement;
         ResultSet results;
         ArrayList<Record> list = new ArrayList<>();
 
-        
-        
         try {
             recordStatement = connection.prepareStatement("SELECT recordID FROM records");
-
             results = recordStatement.executeQuery();
-
             while( results.next() )
             {
                 //list.add(fetchRecord("recordID", "" + results.getInt(1)));
@@ -364,6 +518,10 @@ public class Library {
         return list;
     }
 
+    /**
+     * Fetches an ArrayList of all Student objects in the database
+     * @return an ArrayList of all Student objects
+     */
     public ArrayList<Student> getAllStudents(){
         ArrayList<Student> studentList = new ArrayList<>();
         try {
@@ -390,11 +548,15 @@ public class Library {
         return studentList;
     }
     
+    /**
+     * Checks to see if there is a flash message waiting to be conveyed to the User
+     * @return True if there is a flash message, otherwise false.
+     */
     public boolean flashExists(){
         return !flashMessage.isEmpty();
     }
     
-    
+    //Needs to go away.
     public Timestamp nowTimestamp()
     {
         return Timestamp.from(Instant.now());
