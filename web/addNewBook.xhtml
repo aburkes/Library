@@ -22,24 +22,33 @@ and open the template in the editor.
                 <h:form>
                     <h:panelGrid columns="2" style="height: 96px; width: 456px;">
                         <h:outputLabel value="Book ID"/>
-                        <h:inputText id="newBookInputText"/>
+                        <h:inputText id="newBookInputText"
+                                     value="#{book.bookID}"/>
+                       
                         <h:outputLabel value="Book Name"/>
-                        <h:inputText id="newBookNameInputText"/>
+                        <h:inputText id="newBookNameInputText"
+                                     value="#{book.title}"/>
+                        
                         <h:outputLabel value="Edition"/>
-                        <h:inputText id="newBookEditionInputText"/>
+                        <h:inputText id="newBookEditionInputText"
+                                     value="#{book.edition}"/>
+                        
                         <h:outputLabel value="Publisher"/>
-                        <h:inputText id="newBookPublisherInput"/>
+                        <h:inputText id="newBookPublisherInput"
+                                     value="#{book.publisher}"/>
+                        
                         <h:outputLabel value="Price"/>
-                        <h:inputText id="newBookPriceInput"/>
+                        <h:inputText id="newBookPriceInput"
+                                     value="#{book.price}"/>
+                        
                         <h:outputLabel value="Pages"/>
-                        <h:inputText id="newBookPageInput"/>
+                        <h:inputText id="newBookPageInput"
+                                     value="#{book.pages}"/>
 
                         <h:commandButton value="Add"
-                                         id="newBookAddCommandButton"/>
-
+                                         action="#{library.newBook(book)}"/>
                         <h:commandButton value="Back"
                                          id="newBookBackButton"/>
-
                     </h:panelGrid>
 
                 </h:form>
