@@ -30,7 +30,12 @@ public class Library {
 
     //should be in the specs, but isn't!
     private String flashMessage = "";
-    private User user; //user logged in
+    private User authentcatedUser; //user logged in
+    private String testedUser; // username to find password for
+    private String testedUserAnswer; //answer to their security question
+
+    private String testedUserPassword; //their username
+    
 
     
     /**
@@ -58,7 +63,13 @@ public class Library {
         this.flashMessage = flashMessage;
     }
 
-    
+    /**
+     * Checks to see if there is a flash message waiting to be conveyed to the User
+     * @return True if there is a flash message, otherwise false.
+     */
+    public boolean flashExists(){
+        return !flashMessage.isEmpty();
+    }
     
     /*
     BEGIN AUTHENTICATION BLOCK
@@ -71,19 +82,19 @@ public class Library {
      */
     public boolean isAuthenticated(){
         try {
-            return this.user != null;
+            return this.authentcatedUser != null;
         }
         catch(NullPointerException err) {
             return false;
         }
     }
-    
+
     /**
      * Authenticates a user.
      * 
      * @param username
      * @param password
-     * @see authenticate
+     * @see Library.authenticate
      */
     public void login(String username, String password){
         authenticate(username, password);
@@ -94,13 +105,8 @@ public class Library {
      * Deauthenticates a user. also closes connection to database.
      */
     public void logoff() {
-        this.user = null;
+        this.authentcatedUser = null;
         this.flashMessage = "You have been logged off successfully";
-        try {
-            connection.close();
-        } catch (SQLException ex) {
-            Logger.getLogger(Library.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
     
     /**
@@ -118,8 +124,9 @@ public class Library {
             thisUser = getUserbyName(username);
         }
         catch(SQLException err) {
-            if(err.getErrorCode() == 0)
+            if(err.getErrorCode() == 0) {
                 flashMessage = AUTH_FAILURE_MESSAGE;
+            }
             else {
                 System.out.println("SQL Error!");
                 System.out.println(err.getMessage());
@@ -128,7 +135,7 @@ public class Library {
         
         try{
             if(thisUser.verifyPassword(password)) {
-               this.user = thisUser;
+               this.authentcatedUser = thisUser;
                System.out.println("The Password was correct.");
                return true;
             }
@@ -143,7 +150,78 @@ public class Library {
         //if all else fails...
         return false;
     }
+    
+    /**
+     * Gets a security question for a user.
+     * 
+     * @param username
+     * @return the user's security question
+     */
+    public String getSecurityQuestion(String username) {
+        try {
+            User user = getUserbyName(username);
+            return user.lostPassword();
+        } catch (SQLException ex) {
+            Logger.getLogger(Library.class.getName()).log(Level.SEVERE, null, ex);
+            this.setFlashMessage("Unable to find username.");
+        }
+        return "";
+    }
+    
+    /**
+     * Finds a password given the proper answer to a user's security question
+     * 
+     * @param username
+     * @param securityAnswer
+     * @return the user's password.
+     */
+    public String fetchUserPassword() {
+        try {
+            User user = this.getUserbyName(this.testedUser);
+            if(this.testedUserAnswer.equals(user.getSecurityAnswer()))
+                return user.getPassword();
+        } catch (SQLException ex) {
+            Logger.getLogger(Library.class.getName()).log(Level.SEVERE, null, ex);
+            this.setFlashMessage("An error has occurred with your request.");
+        }
+        return "";
+    }
+    
+    public String forgotPassword() {
+        return "securityverification.xhtml";
+    }
+    
 
+    public String getTestedUser() {
+        return testedUser;
+    }
+
+    public void setTestedUser(String testedUser) {
+        this.testedUser = testedUser;
+    }
+
+    public String getTestedUserPassword() {
+        String password = this.testedUserPassword;
+        this.testedUserPassword = null;
+        return password;
+    }
+
+    public void setTestedUserPassword(String testedUserPassword) {
+        this.testedUserPassword = testedUserPassword;
+    }
+
+    public String getTestedUserAnswer() {
+        return testedUserAnswer;
+    }
+
+    public void setTestedUserAnswer(String testedUserAnswer) {
+        this.testedUserAnswer = testedUserAnswer;
+    }
+    
+    
+
+    
+    
     /*
     END AUTHENTICATION BLOCK
     */
@@ -151,14 +229,21 @@ public class Library {
     
     /**
      * Calls method to create a new user.
-     * @param user account's username.
-     * @param password account's password.
-     * @param answer answer to user's security question.
+     * @param user user to inert into the database.
+
      * @throws SQLException 
      * @see createUser
      */
-    public void newUser(User user, String password, String answer) throws SQLException {
-        createUser(user, password, answer);
+    public String newUser(User user) throws SQLException {
+        try {
+            createUser(user);
+        }
+        catch(SQLException err) {
+            this.setFlashMessage("Sorry, we were unable to create this user. " + err.getMessage());
+        }
+        if (!this.flashExists())
+            this.setFlashMessage("User created successfully");
+        return "/index.xhtml";
     }
 
     /**
@@ -195,16 +280,14 @@ public class Library {
      * Inserts a User object into the database.
      * 
      * @param user User object to be inserted.
-     * @param password password to be applied to provided User object
-     * @param answer answer (for security question) to be applied to provided User object
      * @throws SQLException 
      */
-    private void createUser(User user, String password, String answer) throws SQLException {
+    private void createUser(User user) throws SQLException {
         PreparedStatement statement = connection.prepareStatement("INSERT INTO users VALUES (DEFAULT, ?, ?, ?, ?)");
         statement.setString(1, user.getUserName());
-        statement.setString(2, password);
+        statement.setString(2, user.getPassword());
         statement.setInt(3, user.getSecurityQuestion());
-        statement.setString(4, answer);
+        statement.setString(4, user.getSecurityAnswer());
         statement.execute();
     }
 
@@ -553,7 +636,7 @@ public class Library {
         return studentList;
     }
     
-  static public ArrayList<Book> getAllBooks(){
+    static public ArrayList<Book> getAllBooks(){
         ArrayList<Book> bookList = new ArrayList<Book>();
         try{
             PreparedStatement books = connection.prepareStatement("SELECT * FROM books");
@@ -576,13 +659,6 @@ public class Library {
             Logger.getLogger(Library.class.getName()).log(Level.SEVERE, null, ex);
         }
         return bookList;
-
-    /**
-     * Checks to see if there is a flash message waiting to be conveyed to the User
-     * @return True if there is a flash message, otherwise false.
-     */
-    public boolean flashExists(){
-        return !flashMessage.isEmpty();
     }
     
     //Needs to go away.

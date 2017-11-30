@@ -13,7 +13,7 @@ public class User {
     private int userID;
     private String userName;
     private String password;
-    //if security
+    // security
     private int securityQuestion;
     private String securityAnswer;
     //constant fields
@@ -58,6 +58,41 @@ public class User {
         //if more security questions are needed change arguments to switch statement rather than conditional operator
         return(securityQuestion == 1?SECURITY_QUESTION_1:SECURITY_QUESTION_2);
     }
+    
+    //new methods; need to have documentation changed for them
+
+    public User(){} //add to top when finished.
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setSecurityQuestion(int securityQuestion) {
+        this.securityQuestion = securityQuestion;
+    }
+
+    public void setSecurityAnswer(String securityAnswer) {
+        this.securityAnswer = securityAnswer;
+    }
+
+    public void setUserID(int userID) {
+        this.userID = userID;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public String getSecurityAnswer() {
+        return securityAnswer;
+    }
+    
+    
+    
     
     
 }//end of Class User

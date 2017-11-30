@@ -3,10 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/alan/Projects/Library/web/history.xhtml</file>
-            <file>file:/home/alan/Projects/Library/web/checkoutBook.xhtml</file>
             <file>file:/home/alan/Projects/Library/src/java/DataManipulation/Library.java</file>
-            <file>file:/home/alan/Projects/Library/src/java/DataManipulation/Record.java</file>
+            <file>file:/home/alan/Projects/Library/src/java/DataManipulation/User.java</file>
+            <file>file:/home/alan/Projects/Library/web/securityverification.xhtml</file>
+            <file>file:/home/alan/Projects/Library/web/forgotPassword.xhtml</file>
+            <file>file:/home/alan/Projects/Library/web/template.xhtml</file>
         </group>
     </open-files>
 </project-private>

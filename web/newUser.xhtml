@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Create a new user</title>
+    </h:head>
+    <h:body>
+        <h:form>
+            <h:outputLabel for="username" value="User Name:" />
+            <h:inputText id="username" value="#{user.userName}" />
+            <br />
+            <h:outputLabel for="password" value="Password" />
+            <h:inputSecret id="password" value="#{user.password}" />
+            <br />
+            <h:outputLabel for="securityQuestion" value="Security Question:" />
+            <h:selectOneMenu id="securityQuestion" value="#{user.securityQuestion}">
+                <f:selectItem itemValue="1" itemLabel="What is your favorite Operating System?" />
+                <f:selectItem itemValue="2" itemLabel="Which Comic Universe is better, Marvel or DC?" />
+            </h:selectOneMenu>
+            <br />
+            <h:outputLabel for="securityAnswer" value="Your Answer:" />
+            <h:inputText id="securityAnswer" value="#{user.securityAnswer}" />
+            <br />
+            <h:commandButton action="#{library.newUser(users)}" />
+        </h:form>
+    </h:body>
+</html>
+
