@@ -21,38 +21,63 @@ and open the template in the editor.
                     <h:panelGrid columns="2" style="height: 96px; width: 456px;"> 
                         <h:panelGrid columns="2" style="height: 96px; width: 456px;"> 
                             <h:outputLabel value="Student ID" />
-                            <h:inputText  id="student_id_inputText"/>
+                            <h:inputText  id="student_id_inputText"
+                                          value="#{student.studentID}"/>
+                           
                             <h:outputLabel value="First Name" />
-                            <h:inputText id="firstNameInputText" />
+                            <h:inputText id="firstNameInputText" 
+                                         value="#{student.firstName}"/>
+                            
                             <h:outputLabel value="Last Name" />
-                            <h:inputText id="lastNameInputText"/>
-                            <h:outputLabel value="Course" />
-                            <h:inputText id="courseInputText" />
-                            <h:outputLabel value="Year"/>
-                            <h:inputText id="yearInputText"/>
-                            <h:outputLabel value="Semester" />
-                            <h:inputText id="semesterInputText"/>
+                            <h:inputText id="lastNameInputText"
+                                         value="#{student.lastName}"/>
+                          
+                            <h:outputLabel value="List of Book"/>
+                            
+                            <h:selectOneMenu value="#{library.getAllBooks()}">
+                            <f:selectItems value="#{library.getAllBooks()}"
+                                           var="book"
+                                           itemValue="#{book}"
+                                           itemLabel="BookTitle: #{book.title}"/>
+                            <f:ajax execute="combo" render="bookNameInputTxt"/>
+                            </h:selectOneMenu>
+                            
                         </h:panelGrid>
                         <h:panelGrid columns ="2" style="height: 96px; width: 456px;">
                             <h:outputLabel value="Book ID"/>
                             <h:inputText id="bookIdInputText"/>
+                            
+                            
                             <h:outputLabel value="Name"/>
-                            <h:inputText id="bookNameInputTxt"/>
+                            <h:inputText id="bookNameInputTxt"
+                                         value="#{library.getAllBooks()}"/>
+                            
+                            
                             <h:outputLabel value="Edition"/>
                             <h:inputText id="editionInputText"/>
+                            
+                            
                             <h:outputLabel value="Publisher"/>
                             <h:inputText id="publisherInputText"/>
+                            
+                            
                             <h:outputLabel value="Price"/>
                             <h:inputText id="priceInputText"/>
+                            
+                            
                             <h:outputLabel value="Pages"/>
                             <h:inputText id="pageInputText"/>
+                            
+                            
                             <h:outputLabel value="Date Of Issue"/>
                             <h:inputText id="dateInputText"/>
                         </h:panelGrid>
                     </h:panelGrid>
+                   
                     <h:panelGrid columns ="2" style="height: 96px; width: 456px;">
                         <h:outputLabel value="Return Date"/>
                         <h:inputText id="returnInputText"/>
+                        
                         <h:commandButton value="Return"
                                          id="returnCommandButton"/>
                         <h:commandButton value="Back"

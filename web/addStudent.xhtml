@@ -22,19 +22,28 @@ and open the template in the editor.
                 <h:form>
                     <h:panelGrid columns="2" style="height: 96px; width: 456px;">
                         <h:outputLabel value="Student ID"/>
-                        <h:inputText id="studentIDInputText"/>
+                        <h:inputText id="studentIDInputText"
+                                     value="#{student.studentID}"/>
                         <h:outputLabel value="First Name"/>
-                        <h:inputText id="firstNameInputText"/>
+                        <h:inputText id="firstNameInputText"
+                                     value="#{student.firstName}"/>
+                        
+                        
                         <h:outputLabel value="Last Name"/>
-                        <h:inputText id="lastNameInputText"/>
-                        <h:outputLabel value="Course"/>
-                        <h:inputText id="courseInputText"/>
-                        <h:outputLabel value="Year"/>
-                        <h:inputText id="yearInputText"/>
-                        <h:outputLabel value="Semester"/>
-                        <h:inputText id="semesterInputText"/>
+                        <h:inputText id="lastNameInputText"
+                                     value="#{student.lastName}"/>
+                        
+                        <h:outputLabel value="Email"/>
+                        <h:inputText id="emailInputText"
+                                     value="#{student.email}"/>
+                        
+                        <h:outputLabel value="Phone Number"/>
+                        <h:inputText id="phoneNumberInputText"
+                                     value="#{student.phone}"/>
+                                              
                         <h:commandButton value="Register"
-                                         id="registerCommandButton"/>
+                                         id="registerCommandButton"
+                                         action="#{library.newStudent(student)}"/>
                         <h:commandButton value="Back"
                                          id="backCommandButton"/>
                     </h:panelGrid>

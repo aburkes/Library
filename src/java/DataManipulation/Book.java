@@ -1,5 +1,6 @@
 package DataManipulation;
 
+import java.util.ArrayList;
 import javax.faces.bean.ManagedBean;
 
 /**
@@ -8,9 +9,6 @@ import javax.faces.bean.ManagedBean;
  */
 
 @ManagedBean
-/**
- * Books has six fields bookID, edition, title publisher, pages and prices
- */
 public class Book {
     //fields
     private int bookID;
@@ -21,6 +19,8 @@ public class Book {
     //put as double because price has a $xx.xx format
     private double price;
 
+    public ArrayList<Book> bookListFromDB;
+	public Book(){}
     /**
      * Used to set values of Parameter
      * @param bookID
@@ -156,7 +156,7 @@ public class Book {
     public void setPrice(double price) {
         this.price = price;
     }
-    
+      
     /**
      * 
      * @return a String back  

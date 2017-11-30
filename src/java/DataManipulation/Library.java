@@ -19,12 +19,16 @@ import javax.faces.bean.SessionScoped;
 @SessionScoped
 public class Library {
 
-    final private String CONNECTION_DATABASE = "jdbc:mysql://localhost:3306/library?zeroDateTimeBehavior=convertToNull";
-    final private String CONNECTION_AUTH_USER = "librarian";
-    final private String CONNECTION_AUTH_PASSWORD = "booksrfun451";
+    final private static String CONNECTION_DATABASE = "jdbc:mysql://localhost:3306/library?zeroDateTimeBehavior=convertToNull";
+    final private static String CONNECTION_AUTH_USER ="librarian";
+    final private static String CONNECTION_AUTH_PASSWORD = "booksrfun451";
+    
+   // public static Statement statement;
+    private static Connection connection;
+   // public static ResultSet resultSet;
+    //public static PreparedStatement preparedStatement;
 
     //should be in the specs, but isn't!
-    private Connection connection;
     private String flashMessage = "";
     private User user; //user logged in
 
@@ -226,6 +230,7 @@ public class Library {
      * @throws SQLException 
      */
     private void createBook(Book book) throws SQLException {
+       
         PreparedStatement statement = connection.prepareStatement("INSERT INTO books VALUES (DEFAULT, ?, ?, ?, ?, ?)");
         statement.setString(1, book.getTitle());
         statement.setInt(2, book.getEdition());
@@ -548,6 +553,30 @@ public class Library {
         return studentList;
     }
     
+  static public ArrayList<Book> getAllBooks(){
+        ArrayList<Book> bookList = new ArrayList<Book>();
+        try{
+            PreparedStatement books = connection.prepareStatement("SELECT * FROM books");
+            ResultSet bookResults = books.executeQuery();
+            
+            while(bookResults.next())
+            {
+                bookList.add(new Book(
+                        bookResults.getInt("bookID"),
+                        bookResults.getString("title"),
+                        bookResults.getInt("edition"),
+                        bookResults.getString("publisher"),
+                        bookResults.getInt("price"),
+                        bookResults.getInt("pages")
+                       
+                ));
+            }
+        } catch(SQLException ex) {
+          
+            Logger.getLogger(Library.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return bookList;
+
     /**
      * Checks to see if there is a flash message waiting to be conveyed to the User
      * @return True if there is a flash message, otherwise false.
@@ -561,6 +590,10 @@ public class Library {
     {
         return Timestamp.from(Instant.now());
     }
+    
+    /**
+     * Write new method for time stamp
+     */
 
 
 }
