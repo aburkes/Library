@@ -230,6 +230,7 @@ public class Library {
     /**
      * Calls method to create a new user.
      * @param user user to inert into the database.
+     * @return /index.xhtml
 
      * @throws SQLException 
      * @see createUser
@@ -254,6 +255,7 @@ public class Library {
      */
     public void newStudent(Student student) throws SQLException {
         createStudent(student);
+        setFlashMessage("Student named " + student.getFirstName() + " " + student.getLastName() + " has been created.");
     }
 
     /**
@@ -264,6 +266,8 @@ public class Library {
      */
     public void newBook(Book book) throws SQLException {
         createBook(book);
+        setFlashMessage("Book \"" + book.getTitle() + "\" has been created.");
+        
     }
 
     /**
@@ -511,15 +515,10 @@ public class Library {
             //statement.setString(1, "records." +field);
             //statement.setString(2, compare);
             statement.setInt(1, Integer.parseInt(compare));
-            System.out.println("Statement created, " + field + " must equal " + compare);
-            System.out.println(statement.toString());
             ResultSet result = statement.executeQuery();
             ResultSetMetaData meta = result.getMetaData();
-            System.out.println("Statement Executed. ");
             
-            if(result.next())
-                System.out.println("There is at least one result!");
-            
+            result.next();
 
 
             record = new Record(
@@ -602,7 +601,7 @@ public class Library {
 
         if( list.isEmpty())
             list.add(new Record());
-
+        
         return list;
     }
 
@@ -659,6 +658,63 @@ public class Library {
             Logger.getLogger(Library.class.getName()).log(Level.SEVERE, null, ex);
         }
         return bookList;
+    }
+    
+    /**
+     * Gets a list of records which have not been returned yet.
+     * 
+     * @return ArrayList of Record objects
+     */
+    public ArrayList<Record> fetchReturnableRecords() {
+        ArrayList<Record> checkedOut = new ArrayList<>();
+        try {
+            PreparedStatement statement = connection.prepareStatement("SELECT recordID FROM records WHERE return_date = '0000-00-00 00:00:00.0'");
+            ResultSet results = statement.executeQuery();
+            
+            while( results.next() ) {
+                //adds complete record to checkedOut arraylist
+                checkedOut.add(fetchRecord("" + results.getInt("recordID"), "recordID"));
+            }
+        }
+        catch(SQLException err) {
+            System.out.println(err.getMessage());
+            err.printStackTrace();
+        }
+        
+        return checkedOut;
+    }
+    
+    public String checkoutBookRecord(int bookID, int studentID) {
+        try {
+            PreparedStatement statement = connection.prepareStatement("INSERT INTO records VALUES (DEFAULT, ?, ?, ?, ?, ?)");
+            statement.setInt(1, bookID);
+            statement.setInt(2, studentID);
+            statement.setInt(3, authentcatedUser.getUserID());
+            statement.setTimestamp(4, Timestamp.from(Instant.now()));
+            // "0000-00-00 00:00:00.0" is the timestamp equivalent of NULL, so we are sending this to the server.
+            statement.setString(5, "0000-00-00 00:00:00.0");
+            System.out.println(statement.toString());
+            statement.execute();
+        } catch (SQLException ex) {
+            Logger.getLogger(Library.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        setFlashMessage("Book has been checked out.");
+        return "/history.xhtml";
+    }    
+    public String checkinBookRecord(int recordID) {
+        try {
+            PreparedStatement statement = connection.prepareStatement("UPDATE records SET return_date = ? WHERE recordID = ?");
+            statement.setString(1, Timestamp.from(Instant.now()).toString());
+            statement.setInt(2, recordID);
+            System.out.println(statement.toString());
+            statement.execute();
+        } catch (SQLException ex) {
+            Logger.getLogger(Library.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        setFlashMessage("Book has been returned.");
+        
+        return "/history.xhtml";
     }
     
     //Needs to go away.

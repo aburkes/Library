@@ -18,6 +18,7 @@ and open the template in the editor.
         <ui:define name="contents">
             <h:body>
                 <h:form>
+                    <!--
                     <h:panelGrid columns="2" style="height: 96px; width: 456px;"> 
                         <h:panelGrid columns="2" style="height: 96px; width: 456px;"> 
                             <h:outputLabel value="Student ID" />
@@ -85,6 +86,16 @@ and open the template in the editor.
                         <h:commandButton value="Search"
                                          id="searchButton"/>
                     </h:panelGrid>
+                    -->
+                    
+                    <h:selectOneMenu value="#{checkin}" >
+                        <f:selectItems value="#{library.fetchReturnableRecords()}"
+                                       var="record"
+                                       itemValue="#{record.recordID}"
+                                       itemLabel="#{record.book.title} (Checked out by #{record.student.firstName} #{record.student.lastName})"
+                                       />
+                    </h:selectOneMenu>
+                    <h:commandButton value="Return Book" action="#{library.checkinBookRecord(checkin)}" />
                 </h:form>
             </h:body>
         </ui:define>

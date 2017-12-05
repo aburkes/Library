@@ -22,27 +22,27 @@ and open the template in the editor.
                     <borderlayout class="ex1">
                         <h:panelGrid columns="2" style="height: 96px; width: 456px;">
                             <h:panelGrid columns="2" style="height: 96px; width: 456px;">
-                                <h:selectOneMenu value="#{library}">
+                                <h:selectOneMenu value="#{bookValue}">
                                     <div><h3>Book Detail</h3></div>
                                     <f:selectItems value="#{library.getAllBooks()}"
                                                    var="book"
-                                                   itemValue="#{book}"                                                                                                     
-                                                   itemLabel="BookTitle: #{book.title}, Publisher: #{book.publisher}"/>
+                                                   itemValue="#{book.bookID}"                                                                                                     
+                                                   itemLabel="#{book.title}"/>
                                 </h:selectOneMenu>
                             </h:panelGrid>
                             <h:panelGrid columns="2" style="height: 96px; width: 456px;"> 
-                                <h:selectOneMenu value="#{library}">
+                                <h:selectOneMenu value="#{studentValue}">
                                     <div><h3>Student Detail</h3></div>
                                     <f:selectItems value="#{library.getAllStudents()}"
                                                    var="student"
-                                                   itemValue="#{student}"
-                                                   itemLabel="Student : #{student.lastName}, #{student.firstName}"/>
+                                                   itemValue="#{student.studentID}"
+                                                   itemLabel="#{student.lastName}, #{student.firstName}"/>
                                 </h:selectOneMenu>
                             </h:panelGrid>
                         </h:panelGrid>
                     </borderlayout>
                     <h:commandButton value="Checkout"
-                                     action="#"/>
+                                     action="#{library.checkoutBookRecord(bookValue, studentValue)}"/>
                 </h:form>
             </h:body>
         </ui:define>

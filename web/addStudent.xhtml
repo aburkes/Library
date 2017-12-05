@@ -21,9 +21,7 @@ and open the template in the editor.
                 </p>
                 <h:form>
                     <h:panelGrid columns="2" style="height: 96px; width: 456px;">
-                        <h:outputLabel value="Student ID"/>
-                        <h:inputText id="studentIDInputText"
-                                     value="#{student.studentID}"/>
+                        
                         <h:outputLabel value="First Name"/>
                         <h:inputText id="firstNameInputText"
                                      value="#{student.firstName}"/>
@@ -35,11 +33,17 @@ and open the template in the editor.
                         
                         <h:outputLabel value="Email"/>
                         <h:inputText id="emailInputText"
-                                     value="#{student.email}"/>
+                                     value="#{student.email}"
+                                     validatorMessage="Please Enter a valid email address.">
+                            <f:validateRegex for="emailInputText" pattern="[A-Za-z0-9]+@[A-Za-z0-9]+\.[A-Za-z0-9]+" />
+                        </h:inputText>
                         
                         <h:outputLabel value="Phone Number"/>
                         <h:inputText id="phoneNumberInputText"
-                                     value="#{student.phone}"/>
+                                     value="#{student.phone}"
+                                     validatorMessage="Please Enter your phone number in the format 000-000-0000">
+                            <f:validateRegex for="phoneNumberInputText" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" />
+                        </h:inputText>
                                               
                         <h:commandButton value="Register"
                                          id="registerCommandButton"
@@ -47,6 +51,9 @@ and open the template in the editor.
                         <h:commandButton value="Back"
                                          id="backCommandButton"/>
                     </h:panelGrid>
+                    <h:message for="emailInputText"></h:message>
+                    <br />
+                    <h:message for="phoneNumberInputText" />
                 </h:form>
             </h:body>
         </ui:define>

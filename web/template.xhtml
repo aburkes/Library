@@ -47,13 +47,12 @@
                         <li class="nav-item">
                             <a href="aboutForm.xhtml" class="nav-link">About</a>
                         </li>
-                        <li class="nav-item">
-                            <h:form>
-                                <h:commandLink class="nav-link" action="#{library.logoff()}" value="Log Off" />
-                            </h:form>
-                        </li>
                     </ul>
                 </div>
+                <h:form>
+                    <h:commandLink class="nav-link" action="#{library.logoff()}" value="Log Off" />
+                </h:form>
+
             </nav>
             <article>
                 <div class="container-fluid">
@@ -93,11 +92,13 @@
                 <h:inputSecret id="password" value="#{password}" validatorMessage="Please enter your password."><f:validateRequired /></h:inputSecret>
                 <h:message for="password" class="error" />
                 <br />
-                <h:commandButton action="#{library.login(username, password)}" label="Log In" />
+                <h:commandButton action="#{library.login(username, password)}" value="Log In" />
                 <br />
                 <a href="newUser.xhtml">Create new user</a>
                 <br />
+                <!--
                 <a href="forgotPassword.xhtml">Forgot Password</a>
+                -->
             </h:form>
         </h:body>
     </c:if>

@@ -39,3 +39,11 @@ and open the template in the editor.
    width: 750px;
 }
 
+.flash {
+    background-color: green;
+    color: white;
+    font-weight: bold;
+    margin: 1em;
+    padding: 1em;
+    border-radius: 1em;
+}
