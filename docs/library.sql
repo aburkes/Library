@@ -39,8 +39,7 @@ CREATE TABLE IF NOT EXISTS `books` (
 /*!40000 ALTER TABLE `books` DISABLE KEYS */;
 INSERT INTO `books` (`bookID`, `title`, `edition`, `publisher`, `price`, `pages`) VALUES
 	(1, 'Bibliotheque', 1, 'France', 5.00, 3425),
-	(2, 'The Story of the Rug', 45, 'The Dude', 49.95, 20),
-	(3, '', NULL, NULL, NULL, NULL);
+	(2, 'The Story of the Rug', 45, 'The Dude', 49.95, 20);
 /*!40000 ALTER TABLE `books` ENABLE KEYS */;
 
 -- Dumping structure for table library.records
